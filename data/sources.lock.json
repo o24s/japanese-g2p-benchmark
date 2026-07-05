@@ -1,0 +1,18 @@
+{
+  "jsut-label": {
+    "url": "https://raw.githubusercontent.com/prj-beatrice/jsut-label/refs/heads/master/text_kana/basic5000.yaml"
+  },
+  "jvs_nonpara_kana": {
+    "url": "https://raw.githubusercontent.com/CyberAgentAILab/jvs_nonpara_kana/3c7f1cd936f3b45f4bd78171d8df9feddadc3b33/jvs_nonpara_kana.csv"
+  },
+  "joyo-kanji-yomi-benchmark": {
+    "hf_dataset": "sbintuitions/joyo-kanji-yomi-benchmark",
+    "revision": "2ae383bcdac88dacf89c9ab84f9990eec55fe5c9"
+  },
+  "rohan4600": {
+    "url": "https://raw.githubusercontent.com/mmorise/rohan4600/98082649e1e0d36e950fda1dbc862705acdee6f2/Rohan4600_transcript_utf8.txt"
+  },
+  "ajimee-bench": {
+    "url": "https://raw.githubusercontent.com/azooKey/AJIMEE-Bench/401666cd56d1a570c2021798b64b6da4396bfd45/JWTD_v2/v1/evaluation_items.json"
+  }
+}

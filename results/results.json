@@ -1,0 +1,613 @@
+{
+  "pyopenjtalk": {
+    "adapter": "pyopenjtalk",
+    "options": {},
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.015446,
+          "substitutions": 2213,
+          "deletions": 1641,
+          "insertions": 871,
+          "edit_ops": 4725,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.013084,
+          "substitutions": 2173,
+          "deletions": 868,
+          "insertions": 856,
+          "edit_ops": 3897,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 1.1
+      },
+      "pron": {
+        "ker": 0.047538,
+        "substitutions": 17930,
+        "deletions": 1814,
+        "insertions": 9333,
+        "edit_ops": 29077,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.81
+      },
+      "orth": {
+        "ker": 0.050233,
+        "substitutions": 6631,
+        "deletions": 548,
+        "insertions": 388,
+        "edit_ops": 7567,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.2
+      },
+      "ctxt": {
+        "ker": 0.086163,
+        "substitutions": 1094,
+        "deletions": 52,
+        "insertions": 34,
+        "edit_ops": 1180,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.02
+      }
+    }
+  },
+  "pyopenjtalk_plus.revert_long_vowels=True.revert_yotsugana=True.use_sudachi_kanji_yomi=True": {
+    "adapter": "pyopenjtalk_plus",
+    "options": {
+      "use_sudachi_kanji_yomi": true,
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.016862,
+        "substitutions": 1746,
+        "deletions": 500,
+        "insertions": 294,
+        "edit_ops": 2540,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.54
+      },
+      "ctxt": {
+        "ker": 0.023731,
+        "substitutions": 242,
+        "deletions": 53,
+        "insertions": 30,
+        "edit_ops": 325,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.04
+      }
+    }
+  },
+  "pyopenjtalk_plus.revert_long_vowels=False.revert_yotsugana=False.use_sudachi_kanji_yomi=True": {
+    "adapter": "pyopenjtalk_plus",
+    "options": {
+      "use_sudachi_kanji_yomi": true,
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014942,
+          "substitutions": 2171,
+          "deletions": 1647,
+          "insertions": 753,
+          "edit_ops": 4571,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.012554,
+          "substitutions": 2140,
+          "deletions": 863,
+          "insertions": 736,
+          "edit_ops": 3739,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.97
+      },
+      "pron": {
+        "ker": 0.047288,
+        "substitutions": 17965,
+        "deletions": 1792,
+        "insertions": 9167,
+        "edit_ops": 28924,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 2.06
+      },
+      "orth": {
+        "ker": 0.046848,
+        "substitutions": 6269,
+        "deletions": 497,
+        "insertions": 291,
+        "edit_ops": 7057,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.5
+      },
+      "ctxt": {
+        "ker": 0.085579,
+        "substitutions": 1087,
+        "deletions": 54,
+        "insertions": 31,
+        "edit_ops": 1172,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.04
+      }
+    }
+  },
+  "pyopenjtalk_plus.revert_long_vowels=True.revert_yotsugana=True.use_sudachi_kanji_yomi=False": {
+    "adapter": "pyopenjtalk_plus",
+    "options": {
+      "use_sudachi_kanji_yomi": false,
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.017074,
+        "substitutions": 1763,
+        "deletions": 507,
+        "insertions": 302,
+        "edit_ops": 2572,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.49
+      },
+      "ctxt": {
+        "ker": 0.023293,
+        "substitutions": 236,
+        "deletions": 53,
+        "insertions": 30,
+        "edit_ops": 319,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.04
+      }
+    }
+  },
+  "pyopenjtalk_plus.revert_long_vowels=False.revert_yotsugana=False.use_sudachi_kanji_yomi=False": {
+    "adapter": "pyopenjtalk_plus",
+    "options": {
+      "use_sudachi_kanji_yomi": false,
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014821,
+          "substitutions": 2126,
+          "deletions": 1652,
+          "insertions": 756,
+          "edit_ops": 4534,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.012433,
+          "substitutions": 2094,
+          "deletions": 869,
+          "insertions": 740,
+          "edit_ops": 3703,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.9
+      },
+      "pron": {
+        "ker": 0.046972,
+        "substitutions": 17757,
+        "deletions": 1801,
+        "insertions": 9173,
+        "edit_ops": 28731,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 1.91
+      },
+      "orth": {
+        "ker": 0.047292,
+        "substitutions": 6321,
+        "deletions": 504,
+        "insertions": 299,
+        "edit_ops": 7124,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.47
+      },
+      "ctxt": {
+        "ker": 0.085798,
+        "substitutions": 1090,
+        "deletions": 54,
+        "insertions": 31,
+        "edit_ops": 1175,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.04
+      }
+    }
+  },
+  "haqumei.normalize_iu=none.revert_long_vowels=True.revert_yotsugana=True.use_unidic_yomi=False": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": false,
+      "normalize_iu": "none",
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.016397,
+        "substitutions": 1661,
+        "deletions": 507,
+        "insertions": 302,
+        "edit_ops": 2470,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.05
+      },
+      "ctxt": {
+        "ker": 0.023877,
+        "substitutions": 240,
+        "deletions": 57,
+        "insertions": 30,
+        "edit_ops": 327,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.02
+      }
+    }
+  },
+  "haqumei.normalize_iu=none.revert_long_vowels=False.revert_yotsugana=False.use_unidic_yomi=False": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": false,
+      "normalize_iu": "none",
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014533,
+          "substitutions": 2082,
+          "deletions": 1607,
+          "insertions": 757,
+          "edit_ops": 4446,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.012137,
+          "substitutions": 2050,
+          "deletions": 824,
+          "insertions": 741,
+          "edit_ops": 3615,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.17
+      },
+      "pron": {
+        "ker": 0.04676,
+        "substitutions": 17627,
+        "deletions": 1801,
+        "insertions": 9173,
+        "edit_ops": 28601,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.18
+      },
+      "orth": {
+        "ker": 0.046615,
+        "substitutions": 6219,
+        "deletions": 504,
+        "insertions": 299,
+        "edit_ops": 7022,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.04
+      },
+      "ctxt": {
+        "ker": 0.086382,
+        "substitutions": 1094,
+        "deletions": 58,
+        "insertions": 31,
+        "edit_ops": 1183,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.0
+      }
+    }
+  },
+  "haqumei.normalize_iu=yuu.revert_long_vowels=True.revert_yotsugana=True.use_unidic_yomi=False": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": false,
+      "normalize_iu": "yuu",
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.016941,
+        "substitutions": 1743,
+        "deletions": 507,
+        "insertions": 302,
+        "edit_ops": 2552,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.03
+      },
+      "ctxt": {
+        "ker": 0.025046,
+        "substitutions": 256,
+        "deletions": 57,
+        "insertions": 30,
+        "edit_ops": 343,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.0
+      }
+    }
+  },
+  "haqumei.normalize_iu=yuu.revert_long_vowels=False.revert_yotsugana=False.use_unidic_yomi=False": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": false,
+      "normalize_iu": "yuu",
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014141,
+          "substitutions": 2022,
+          "deletions": 1415,
+          "insertions": 889,
+          "edit_ops": 4326,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.011734,
+          "substitutions": 1990,
+          "deletions": 632,
+          "insertions": 873,
+          "edit_ops": 3495,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.17
+      },
+      "pron": {
+        "ker": 0.046805,
+        "substitutions": 17585,
+        "deletions": 1836,
+        "insertions": 9208,
+        "edit_ops": 28629,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.18
+      },
+      "orth": {
+        "ker": 0.04716,
+        "substitutions": 6301,
+        "deletions": 504,
+        "insertions": 299,
+        "edit_ops": 7104,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.04
+      },
+      "ctxt": {
+        "ker": 0.08755,
+        "substitutions": 1110,
+        "deletions": 58,
+        "insertions": 31,
+        "edit_ops": 1199,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.01
+      }
+    }
+  },
+  "haqumei.normalize_iu=none.revert_long_vowels=True.revert_yotsugana=True.use_unidic_yomi=True": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": true,
+      "normalize_iu": "none",
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.016444,
+        "substitutions": 1673,
+        "deletions": 503,
+        "insertions": 301,
+        "edit_ops": 2477,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.06
+      },
+      "ctxt": {
+        "ker": 0.024315,
+        "substitutions": 247,
+        "deletions": 56,
+        "insertions": 30,
+        "edit_ops": 333,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.01
+      }
+    }
+  },
+  "haqumei.normalize_iu=none.revert_long_vowels=False.revert_yotsugana=False.use_unidic_yomi=True": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": true,
+      "normalize_iu": "none",
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014462,
+          "substitutions": 2054,
+          "deletions": 1588,
+          "insertions": 782,
+          "edit_ops": 4424,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.01206,
+          "substitutions": 2029,
+          "deletions": 801,
+          "insertions": 762,
+          "edit_ops": 3592,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.2
+      },
+      "pron": {
+        "ker": 0.046688,
+        "substitutions": 17585,
+        "deletions": 1804,
+        "insertions": 9168,
+        "edit_ops": 28557,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.27
+      },
+      "orth": {
+        "ker": 0.046416,
+        "substitutions": 6194,
+        "deletions": 500,
+        "insertions": 298,
+        "edit_ops": 6992,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.06
+      },
+      "ctxt": {
+        "ker": 0.086455,
+        "substitutions": 1096,
+        "deletions": 57,
+        "insertions": 31,
+        "edit_ops": 1184,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.01
+      }
+    }
+  },
+  "haqumei.normalize_iu=yuu.revert_long_vowels=True.revert_yotsugana=True.use_unidic_yomi=True": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": true,
+      "normalize_iu": "yuu",
+      "revert_long_vowels": true,
+      "revert_yotsugana": true
+    },
+    "results": {
+      "orth": {
+        "ker": 0.016988,
+        "substitutions": 1755,
+        "deletions": 503,
+        "insertions": 301,
+        "edit_ops": 2559,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.06
+      },
+      "ctxt": {
+        "ker": 0.025484,
+        "substitutions": 263,
+        "deletions": 56,
+        "insertions": 30,
+        "edit_ops": 349,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.01
+      }
+    }
+  },
+  "haqumei.normalize_iu=yuu.revert_long_vowels=False.revert_yotsugana=False.use_unidic_yomi=True": {
+    "adapter": "haqumei",
+    "options": {
+      "use_unidic_yomi": true,
+      "normalize_iu": "yuu",
+      "revert_long_vowels": false,
+      "revert_yotsugana": false
+    },
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.014069,
+          "substitutions": 1994,
+          "deletions": 1396,
+          "insertions": 914,
+          "edit_ops": 4304,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.011657,
+          "substitutions": 1969,
+          "deletions": 609,
+          "insertions": 894,
+          "edit_ops": 3472,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 0.19
+      },
+      "pron": {
+        "ker": 0.046733,
+        "substitutions": 17543,
+        "deletions": 1839,
+        "insertions": 9203,
+        "edit_ops": 28585,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.27
+      },
+      "orth": {
+        "ker": 0.046961,
+        "substitutions": 6276,
+        "deletions": 500,
+        "insertions": 298,
+        "edit_ops": 7074,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.06
+      },
+      "ctxt": {
+        "ker": 0.087623,
+        "substitutions": 1112,
+        "deletions": 57,
+        "insertions": 31,
+        "edit_ops": 1200,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.01
+      }
+    }
+  }
+}

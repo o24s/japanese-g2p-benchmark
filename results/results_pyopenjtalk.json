@@ -1,0 +1,59 @@
+{
+  "pyopenjtalk": {
+    "adapter": "pyopenjtalk",
+    "options": {},
+    "results": {
+      "phoneme": {
+        "pau_included": {
+          "per": 0.015446,
+          "substitutions": 2213,
+          "deletions": 1641,
+          "insertions": 871,
+          "edit_ops": 4725,
+          "n_expected": 305914,
+          "n_sentences": 5000
+        },
+        "pau_filtered": {
+          "per": 0.013084,
+          "substitutions": 2173,
+          "deletions": 868,
+          "insertions": 856,
+          "edit_ops": 3897,
+          "n_expected": 297843,
+          "n_sentences": 5000
+        },
+        "elapsed_s": 1.1
+      },
+      "pron": {
+        "ker": 0.047538,
+        "substitutions": 17930,
+        "deletions": 1814,
+        "insertions": 9333,
+        "edit_ops": 29077,
+        "n_expected": 611660,
+        "n_sentences": 21095,
+        "elapsed_s": 0.81
+      },
+      "orth": {
+        "ker": 0.050233,
+        "substitutions": 6631,
+        "deletions": 548,
+        "insertions": 388,
+        "edit_ops": 7567,
+        "n_expected": 150637,
+        "n_sentences": 4600,
+        "elapsed_s": 0.2
+      },
+      "ctxt": {
+        "ker": 0.086163,
+        "substitutions": 1094,
+        "deletions": 52,
+        "insertions": 34,
+        "edit_ops": 1180,
+        "n_expected": 13695,
+        "n_sentences": 422,
+        "elapsed_s": 0.02
+      }
+    }
+  }
+}

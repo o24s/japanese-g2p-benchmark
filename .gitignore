@@ -1,0 +1,11 @@
+data/raw/
+errors/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+.python-version
+.ruff_cache
