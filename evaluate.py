@@ -9,7 +9,7 @@ Usage:
 
 Options:
     --adapters    カンマ区切り前方一致フィルタ
-    --datasets    カンマ区切り (phoneme, pron, orth, ctxt)
+    --datasets    カンマ区切り (phoneme, lvs, no_lvs, ctxt)
     --batch-size  バッチサイズ (default: 256)
     --out         結果 JSON の出力先
     --no-tsv      TSV を出力しない
@@ -320,15 +320,15 @@ def _eval_kana(
 
 DATASET_DEF: dict[str, tuple[Path, str]] = {
     "phoneme": (BENCH / "jsut_phoneme.jsonl", "phoneme"),
-    "pron": (BENCH / "kana_pron.jsonl", "kana"),
-    "orth": (BENCH / "kana_orth.jsonl", "kana"),
+    "lvs": (BENCH / "kana_lvs.jsonl", "kana"),
+    "no_lvs": (BENCH / "kana_no_lvs.jsonl", "kana"),
     "ctxt": (BENCH / "kana_ctxt.jsonl", "kana"),
 }
 
 _COLUMNS = [
     ("phoneme", "PER"),
-    ("pron", "KER-pron"),
-    ("orth", "KER-orth"),
+    ("lvs", "KER-lvs"),
+    ("no_lvs", "KER-no_lvs"),
     ("ctxt", "KER-ctxt"),
 ]
 
@@ -498,7 +498,7 @@ def main() -> None:
     parser.add_argument(
         "--datasets",
         default=None,
-        help="カンマ区切り (phoneme, pron, orth, ctxt)",
+        help="カンマ区切り (phoneme, lvs, no_lvs, ctxt)",
     )
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument(

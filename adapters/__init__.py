@@ -2,8 +2,8 @@ from functools import partial
 
 from .base import G2PAdapter, Variant, make_variant
 
-_PRON_TASKS = ["phoneme", "pron"]
-_ORTH_TASKS = ["orth", "ctxt"]
+_LVS_TASKS = ["phoneme", "lvs"]
+_NO_LVS_TASKS = ["no_lvs", "ctxt"]
 
 
 def _build_variants() -> list[Variant]:
@@ -18,7 +18,7 @@ def _build_variants() -> list[Variant]:
                 adapter="pyopenjtalk",
                 options={},
                 factory=PyOpenJTalkAdapter,
-                datasets=_PRON_TASKS + _ORTH_TASKS,
+                datasets=_LVS_TASKS + _NO_LVS_TASKS,
             )
         )
     except ImportError:
@@ -44,7 +44,7 @@ def _build_variants() -> list[Variant]:
                             revert_long_vowels=revert,
                             revert_yotsugana=revert,
                         ),
-                        datasets=_ORTH_TASKS if revert else _PRON_TASKS + _ORTH_TASKS,
+                        datasets=_NO_LVS_TASKS if revert else _LVS_TASKS + _NO_LVS_TASKS,
                     )
                 )
     except ImportError:
@@ -79,9 +79,9 @@ def _build_variants() -> list[Variant]:
                                 revert_long_vowels=revert,
                                 revert_yotsugana=revert,
                             ),
-                            datasets=_ORTH_TASKS
+                            datasets=_NO_LVS_TASKS
                             if revert
-                            else _PRON_TASKS + _ORTH_TASKS,
+                            else _LVS_TASKS + _NO_LVS_TASKS,
                         )
                     )
     except ImportError:

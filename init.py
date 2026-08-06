@@ -9,16 +9,16 @@ Run:
 
 Outputs:
     benchmarks/jsut_phoneme.jsonl   -- PER benchmark (phoneme sequences, manual annotation)
-    benchmarks/kana_pron.jsonl  -- KER benchmark, ou->オー, ei->エー
+    benchmarks/kana_lvs.jsonl  -- KER benchmark, ou->オー, ei->エー
                                         sources: jsut-label kana, jvs_nonpara_kana, joyo-kanji-yomi
-    benchmarks/kana_orth.jsonl  -- KER benchmark, ou/ei preserved
+    benchmarks/kana_no_lvs.jsonl  -- KER benchmark, ou/ei preserved
                                         sources: rohan4600
     benchmarks/kana_ctxt.jsonl       -- KER benchmark derived from AJIMEE-Bench (JWTD_v2)
                                         (IME task inverted)
 
 Note on kana_long_vowel field:
-    "pron" = o u ->オー, ei -> エー (uses ー)
-    "orth" = kana spelling preserved (no ー substitution)
+    "lvs" = o u ->オー, ei -> エー (uses ー)
+    "no_lvs" = kana spelling preserved (no ー substitution)
 """
 
 import argparse
@@ -122,11 +122,11 @@ def write_jsonl(path: Path, records: list[dict]) -> None:
     print(f"  Wrote {len(records)} records -> {path}")
 
 
-# jsut-label  (PER + KER pron)
+# jsut-label  (PER + KER lvs)
 #    Single file: text_kana/basic5000.yaml
 #    Format (one entry spans multiple lines):
 #      text_level2: <original text>
-#      kana_level2: <katakana reading> (pron)
+#      kana_level2: <katakana reading>
 #      phone_level3: <p1>-<p2>-...
 
 JSUT_YAML_URL = (
@@ -163,7 +163,7 @@ def parse_jsut_yaml() -> Iterator[dict]:
                 current = {}
 
 
-# JVS-nonpara-kana dataset (KER pron)
+# JVS-nonpara-kana dataset (KER lvs)
 #    CSV: base, text, kana
 
 JVS_CSV_URL = (
@@ -184,7 +184,7 @@ def parse_jvs() -> Iterator[dict]:
             }
 
 
-# ROHAN4600 (KER orth)
+# ROHAN4600 (KER no_lvs)
 #    Format: ROHAN4600_NNNN:text(ruby注記),kana
 #    - colon separates ID from the rest
 #    - last comma separates text(ruby) from kana
@@ -225,11 +225,11 @@ def parse_rohan() -> Iterator[dict]:
             }
 
 
-# Joyo Kanji Yomi Benchmark  (KER pron)
+# Joyo Kanji Yomi Benchmark  (KER lvs)
 #    HuggingFace: sbintuitions/joyo-kanji-yomi-benchmark
 #    columns: key, normalized_text, normalized_pron
 #    normalized_pron: full-sentence katakana, target reading in <>
-#    Uses ー-pron form
+#    Uses lvs (long vowel symbol) form
 
 
 def fetch_and_parse_joyo(lock: dict, update: bool, force: bool) -> Iterator[dict]:
@@ -284,7 +284,7 @@ def fetch_and_parse_joyo(lock: dict, update: bool, force: bool) -> Iterator[dict
         }
 
 
-# AJIMEE-Bench / JWTD_v2  (KER IME-derived, pron)
+# AJIMEE-Bench / JWTD_v2  (KER IME-derived, lvs)
 #    IME task inverted: input=katakana, expected_output=surface
 
 AJIMEE_JSON_URL = (
@@ -325,7 +325,7 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "source": "jsut-label",
             "text": r["text"],
             "phonemes": r["phonemes"],
-            "kana_long_vowel": "pron",
+            "kana_long_vowel": "lvs",
         }
         for r in jsut
     ]
@@ -337,7 +337,7 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "source": "jsut-label",
             "text": r["text"],
             "kana": r["kana"],
-            "kana_long_vowel": "pron",
+            "kana_long_vowel": "lvs",
         }
         for r in jsut
     ]
@@ -350,7 +350,7 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "source": "jvs_nonpara_kana",
             "text": r["text"],
             "kana": r["kana"],
-            "kana_long_vowel": "pron",
+            "kana_long_vowel": "lvs",
         }
         for r in parse_jvs()
     ]
@@ -363,13 +363,13 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "text": r["text"],
             "kana": r["kana"],
             "target_kana": r["target_kana"],
-            "kana_long_vowel": "pron",
+            "kana_long_vowel": "lvs",
         }
         for r in fetch_and_parse_joyo(lock, update, force)
     ]
 
     pron_records = jsut_kana_records + jvs_records + joyo_records
-    write_jsonl(BENCH / "kana_pron.jsonl", pron_records)
+    write_jsonl(BENCH / "kana_lvs.jsonl", pron_records)
 
     print("\nROHAN:")
     sync_file_source("rohan4600", ROHAN_TXT_URL, ROHAN_TXT, lock, update, force)
@@ -379,11 +379,11 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "source": "rohan4600",
             "text": r["text"],
             "kana": r["kana"],
-            "kana_long_vowel": "orth",
+            "kana_long_vowel": "no_lvs",
         }
         for r in parse_rohan()
     ]
-    write_jsonl(BENCH / "kana_orth.jsonl", rohan_records)
+    write_jsonl(BENCH / "kana_no_lvs.jsonl", rohan_records)
 
     print("\nAJIMEE-Bench:")
     sync_file_source("ajimee-bench", AJIMEE_JSON_URL, AJIMEE_JSON, lock, update, force)
@@ -393,7 +393,7 @@ def build_benchmarks(update: bool, force: bool) -> None:
             "source": "ajimee-bench",
             "text": r["text"],
             "kana": r["kana"],
-            "kana_long_vowel": "pron",
+            "kana_long_vowel": "lvs",
             "context": r["context"],
         }
         for r in parse_ajimee()
@@ -406,11 +406,11 @@ def build_benchmarks(update: bool, force: bool) -> None:
     print(
         f"  jsut_phoneme.jsonl  : {len(per_records):>6} records  (PER, phoneme-level)"
     )
-    print(f"  kana_pron.jsonl : {len(pron_records):>6} records  (KER, pron ou/ei)")
+    print(f"  kana_lvs.jsonl : {len(pron_records):>6} records  (KER, ou/ei -> ー)")
     print(f"    jsut-label        : {len(jsut_kana_records):>6}")
     print(f"    jvs_nonpara_kana  : {len(jvs_records):>6}")
     print(f"    joyo-kanji-yomi   : {len(joyo_records):>6}")
-    print(f"  kana_orth.jsonl : {len(rohan_records):>6} records  (KER, orth ou/ei)")
+    print(f"  kana_no_lvs.jsonl : {len(rohan_records):>6} records  (KER, ou/ei preserved)")
     print(
         f"  kana_ime.jsonl      : {len(ajimee_records):>6} records  (KER, IME-derived)"
     )

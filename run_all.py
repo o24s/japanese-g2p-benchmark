@@ -8,7 +8,7 @@ pyopenjtalk と pyopenjtalk-plus はパッケージ名が衝突するため、
 Usage:
     uv run python run_all.py
     uv run python run_all.py --skip haqumei
-    uv run python run_all.py --datasets pron,orth
+    uv run python run_all.py --datasets lvs,no_lvs
     uv run python run_all.py --dry-run
 """
 
