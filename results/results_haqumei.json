@@ -8,7 +8,7 @@
       "revert_yotsugana": true
     },
     "results": {
-      "orth": {
+      "no_lvs": {
         "ker": 0.016397,
         "substitutions": 1661,
         "deletions": 507,
@@ -60,7 +60,7 @@
         },
         "elapsed_s": 0.17
       },
-      "pron": {
+      "lvs": {
         "ker": 0.04676,
         "substitutions": 17627,
         "deletions": 1801,
@@ -68,9 +68,9 @@
         "edit_ops": 28601,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.18
+        "elapsed_s": 0.19
       },
-      "orth": {
+      "no_lvs": {
         "ker": 0.046615,
         "substitutions": 6219,
         "deletions": 504,
@@ -101,7 +101,7 @@
       "revert_yotsugana": true
     },
     "results": {
-      "orth": {
+      "no_lvs": {
         "ker": 0.016941,
         "substitutions": 1743,
         "deletions": 507,
@@ -153,7 +153,7 @@
         },
         "elapsed_s": 0.17
       },
-      "pron": {
+      "lvs": {
         "ker": 0.046805,
         "substitutions": 17585,
         "deletions": 1836,
@@ -161,9 +161,9 @@
         "edit_ops": 28629,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.18
+        "elapsed_s": 0.19
       },
-      "orth": {
+      "no_lvs": {
         "ker": 0.04716,
         "substitutions": 6301,
         "deletions": 504,
@@ -181,7 +181,7 @@
         "edit_ops": 1199,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.01
+        "elapsed_s": 0.0
       }
     }
   },
@@ -194,7 +194,7 @@
       "revert_yotsugana": true
     },
     "results": {
-      "orth": {
+      "no_lvs": {
         "ker": 0.016444,
         "substitutions": 1673,
         "deletions": 503,
@@ -202,7 +202,7 @@
         "edit_ops": 2477,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.06
+        "elapsed_s": 0.05
       },
       "ctxt": {
         "ker": 0.024315,
@@ -244,9 +244,9 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.2
+        "elapsed_s": 0.19
       },
-      "pron": {
+      "lvs": {
         "ker": 0.046688,
         "substitutions": 17585,
         "deletions": 1804,
@@ -256,7 +256,7 @@
         "n_sentences": 21095,
         "elapsed_s": 0.27
       },
-      "orth": {
+      "no_lvs": {
         "ker": 0.046416,
         "substitutions": 6194,
         "deletions": 500,
@@ -287,7 +287,7 @@
       "revert_yotsugana": true
     },
     "results": {
-      "orth": {
+      "no_lvs": {
         "ker": 0.016988,
         "substitutions": 1755,
         "deletions": 503,
@@ -295,7 +295,7 @@
         "edit_ops": 2559,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.06
+        "elapsed_s": 0.05
       },
       "ctxt": {
         "ker": 0.025484,
@@ -337,9 +337,9 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.2
       },
-      "pron": {
+      "lvs": {
         "ker": 0.046733,
         "substitutions": 17543,
         "deletions": 1839,
@@ -349,7 +349,7 @@
         "n_sentences": 21095,
         "elapsed_s": 0.27
       },
-      "orth": {
+      "no_lvs": {
         "ker": 0.046961,
         "substitutions": 6276,
         "deletions": 500,
