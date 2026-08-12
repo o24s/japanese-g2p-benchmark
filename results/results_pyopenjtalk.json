@@ -32,7 +32,7 @@
         "edit_ops": 29077,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.79
+        "elapsed_s": 0.82
       },
       "no_lvs": {
         "ker": 0.050233,

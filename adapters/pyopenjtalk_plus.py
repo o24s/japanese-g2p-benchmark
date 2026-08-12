@@ -16,16 +16,20 @@ class PyOpenJTalkPlusAdapter(G2PAdapter):
     def __init__(
         self,
         use_sudachi_kanji_yomi: bool = True,
+        use_tsqyomi: bool = True,
         revert_long_vowels: bool = False,
         revert_yotsugana: bool = False,
     ) -> None:
-        self._opts = dict(
-            join=True,
-            use_sudachi_kanji_yomi=use_sudachi_kanji_yomi,
-            predict_nani=True,
-            revert_long_vowels=revert_long_vowels,
-            revert_yotsugana=revert_yotsugana,
-        )
+        pyopenjtalk.tsqyomi.load_model()
+
+        self._opts = {
+            "join": True,
+            "use_sudachi_kanji_yomi": use_sudachi_kanji_yomi,
+            "use_tsqyomi": use_tsqyomi,
+            "predict_nani": True,
+            "revert_long_vowels": revert_long_vowels,
+            "revert_yotsugana": revert_yotsugana,
+        }
 
     def g2p(self, texts: list[str]) -> list[str]:
         with suppress_fd_stderr():

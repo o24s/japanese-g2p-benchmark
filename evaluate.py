@@ -358,14 +358,14 @@ def print_table(all_results: dict) -> None:
         return
 
     adapter_w = 18
-    options_w = 90
+    options_w = 110
 
     header_left = f"{'Adapter':<{adapter_w}}  {'Options':<{options_w}}"
     header_scores = "  ".join(f"{label:>9}" for _, label in _COLUMNS)
     print(f"\n{header_left}  {header_scores}")
     print("-" * (adapter_w + 2 + options_w + 2 + 11 * len(_COLUMNS)))
 
-    for vid, data in all_results.items():
+    for data in all_results.values():
         adapter_str = data["adapter"]
         options_str = _fmt_options(data["options"])
         cells = "  ".join(f"{_fmt_cell(data['results'], ds):>9}" for ds, _ in _COLUMNS)
@@ -376,7 +376,7 @@ def write_tsv(all_results: dict, path: Path) -> None:
     headers = ["adapter", "options"] + [label for _, label in _COLUMNS]
     rows = [headers]
 
-    for vid, data in all_results.items():
+    for data in all_results.values():
         row = [
             data["adapter"],
             _fmt_options(data["options"]),

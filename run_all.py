@@ -27,7 +27,7 @@ RESULTS.mkdir(exist_ok=True)
 _RUNS = [
     ("pyopenjtalk", "pyopenjtalk", RESULTS / "results_pyopenjtalk.json"),
     (
-        "pyopenjtalk-plus[onnxruntime]",
+        "pyopenjtalk-plus[onnxruntime,tsqyomi]",
         "pyopenjtalk_plus",
         RESULTS / "results_pyopenjtalk_plus.json",
     ),

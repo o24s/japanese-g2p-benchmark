@@ -28,31 +28,35 @@ def _build_variants() -> list[Variant]:
     try:
         from .pyopenjtalk_plus import PyOpenJTalkPlusAdapter
 
-        for sudachi in [True, False]:
-            for revert in [True, False]:
-                variants.append(
-                    make_variant(
-                        adapter="pyopenjtalk_plus",
-                        options={
-                            "use_sudachi_kanji_yomi": sudachi,
-                            "revert_long_vowels": revert,
-                            "revert_yotsugana": revert,
-                        },
-                        factory=partial(
-                            PyOpenJTalkPlusAdapter,
-                            use_sudachi_kanji_yomi=sudachi,
-                            revert_long_vowels=revert,
-                            revert_yotsugana=revert,
-                        ),
-                        datasets=_NO_LVS_TASKS if revert else _LVS_TASKS + _NO_LVS_TASKS,
+        for tsqyomi in [True, False]:
+            for sudachi in [True, False]:
+                for revert in [True, False]:
+                    variants.append(
+                        make_variant(
+                            adapter="pyopenjtalk_plus",
+                            options={
+                                "use_sudachi_kanji_yomi": sudachi,
+                                "use_tsqyomi": tsqyomi,
+                                "revert_long_vowels": revert,
+                                "revert_yotsugana": revert,
+                            },
+                            factory=partial(
+                                PyOpenJTalkPlusAdapter,
+                                use_sudachi_kanji_yomi=sudachi,
+                                use_tsqyomi=tsqyomi,
+                                revert_long_vowels=revert,
+                                revert_yotsugana=revert,
+                            ),
+                            datasets=_NO_LVS_TASKS if revert else _LVS_TASKS + _NO_LVS_TASKS,
+                        )
                     )
-                )
     except ImportError:
         pass
 
     # haqumei
     try:
         from haqumei import IuPronunciation  # type: ignore
+
         from .haqumei import HaqumeiAdapter
 
         _IU_VARIANTS: list[tuple[IuPronunciation, str]] = [
