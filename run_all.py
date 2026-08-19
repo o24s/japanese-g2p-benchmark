@@ -14,6 +14,7 @@ Usage:
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -35,6 +36,13 @@ _RUNS = [
 ]
 
 _COMMON_PKGS = ["datasets", "rapidfuzz"]
+
+# リリース前に手元のビルドを検証したいことがあるので、環境変数で
+# `uv run --with` に渡すものを差し替えられるようにしておく。
+#
+#     G2P_BENCH_PKG_HAQUMEI=/path/to/haqumei-0.9.0-*.whl uv run python run_all.py
+def _resolve_pkg(pkg: str, adapter_filter: str) -> str:
+    return os.environ.get(f"G2P_BENCH_PKG_{adapter_filter.upper()}", pkg)
 
 
 def _build_cmd(
