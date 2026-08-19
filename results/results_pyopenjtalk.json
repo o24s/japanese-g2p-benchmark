@@ -22,7 +22,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 1.07
+        "elapsed_s": 1.09
       },
       "lvs": {
         "ker": 0.047538,
@@ -32,7 +32,7 @@
         "edit_ops": 29077,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.82
+        "elapsed_s": 0.81
       },
       "no_lvs": {
         "ker": 0.050233,
@@ -42,7 +42,7 @@
         "edit_ops": 7567,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.2
+        "elapsed_s": 0.21
       },
       "ctxt": {
         "ker": 0.086163,
