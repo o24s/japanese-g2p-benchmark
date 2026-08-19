@@ -25,7 +25,7 @@
         "edit_ops": 313,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.02
+        "elapsed_s": 0.03
       }
     }
   },
@@ -56,7 +56,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044505,
@@ -66,7 +66,7 @@
         "edit_ops": 27222,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.24
+        "elapsed_s": 0.27
       },
       "no_lvs": {
         "ker": 0.038231,
@@ -76,7 +76,7 @@
         "edit_ops": 5759,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.085287,
@@ -116,7 +116,7 @@
         "edit_ops": 329,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.0
+        "elapsed_s": 0.01
       }
     }
   },
@@ -147,7 +147,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044551,
@@ -157,7 +157,7 @@
         "edit_ops": 27250,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.23
+        "elapsed_s": 0.27
       },
       "no_lvs": {
         "ker": 0.038775,
@@ -167,7 +167,7 @@
         "edit_ops": 5841,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.086455,
@@ -207,7 +207,7 @@
         "edit_ops": 328,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.0
+        "elapsed_s": 0.01
       }
     }
   },
@@ -238,7 +238,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044134,
@@ -248,7 +248,7 @@
         "edit_ops": 26995,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.23
+        "elapsed_s": 0.28
       },
       "no_lvs": {
         "ker": 0.038477,
@@ -258,7 +258,7 @@
         "edit_ops": 5796,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.086382,

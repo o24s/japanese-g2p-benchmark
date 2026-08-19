@@ -32,7 +32,7 @@
         "edit_ops": 29077,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.81
+        "elapsed_s": 0.89
       },
       "no_lvs": {
         "ker": 0.050233,
@@ -73,7 +73,7 @@
         "edit_ops": 2415,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 10.27
+        "elapsed_s": 10.28
       },
       "ctxt": {
         "ker": 0.023293,
@@ -83,7 +83,7 @@
         "edit_ops": 319,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 1.48
+        "elapsed_s": 1.4
       }
     }
   },
@@ -115,7 +115,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 23.65
+        "elapsed_s": 23.78
       },
       "lvs": {
         "ker": 0.045352,
@@ -125,7 +125,7 @@
         "edit_ops": 27740,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 68.82
+        "elapsed_s": 68.84
       },
       "no_lvs": {
         "ker": 0.046297,
@@ -135,7 +135,7 @@
         "edit_ops": 6974,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 12.16
+        "elapsed_s": 12.09
       },
       "ctxt": {
         "ker": 0.085798,
@@ -145,7 +145,7 @@
         "edit_ops": 1175,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 1.7
+        "elapsed_s": 1.67
       }
     }
   },
@@ -166,7 +166,7 @@
         "edit_ops": 2415,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 11.95
+        "elapsed_s": 12.09
       },
       "ctxt": {
         "ker": 0.023293,
@@ -176,7 +176,7 @@
         "edit_ops": 319,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 1.67
+        "elapsed_s": 1.66
       }
     }
   },
@@ -208,7 +208,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 24.37
+        "elapsed_s": 24.11
       },
       "lvs": {
         "ker": 0.045352,
@@ -218,7 +218,7 @@
         "edit_ops": 27740,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 69.25
+        "elapsed_s": 69.04
       },
       "no_lvs": {
         "ker": 0.046297,
@@ -228,7 +228,7 @@
         "edit_ops": 6974,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 12.03
+        "elapsed_s": 12.59
       },
       "ctxt": {
         "ker": 0.085798,
@@ -259,7 +259,7 @@
         "edit_ops": 2447,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.73
+        "elapsed_s": 0.83
       },
       "ctxt": {
         "ker": 0.023366,
@@ -269,7 +269,7 @@
         "edit_ops": 320,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.08
+        "elapsed_s": 0.06
       }
     }
   },
@@ -301,7 +301,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 1.25
+        "elapsed_s": 1.27
       },
       "lvs": {
         "ker": 0.045808,
@@ -311,7 +311,7 @@
         "edit_ops": 28019,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 2.86
+        "elapsed_s": 2.99
       },
       "no_lvs": {
         "ker": 0.046463,
@@ -321,7 +321,7 @@
         "edit_ops": 6999,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.67
+        "elapsed_s": 0.78
       },
       "ctxt": {
         "ker": 0.085725,
@@ -352,7 +352,7 @@
         "edit_ops": 2467,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.64
+        "elapsed_s": 0.66
       },
       "ctxt": {
         "ker": 0.02322,
@@ -362,7 +362,7 @@
         "edit_ops": 318,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       }
     }
   },
@@ -394,7 +394,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 1.22
+        "elapsed_s": 1.24
       },
       "lvs": {
         "ker": 0.045749,
@@ -404,7 +404,7 @@
         "edit_ops": 27983,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 2.74
+        "elapsed_s": 2.86
       },
       "no_lvs": {
         "ker": 0.046629,
@@ -424,7 +424,7 @@
         "edit_ops": 1174,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       }
     }
   },
@@ -454,7 +454,7 @@
         "edit_ops": 313,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.02
+        "elapsed_s": 0.03
       }
     }
   },
@@ -485,7 +485,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044505,
@@ -495,7 +495,7 @@
         "edit_ops": 27222,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.24
+        "elapsed_s": 0.27
       },
       "no_lvs": {
         "ker": 0.038231,
@@ -505,7 +505,7 @@
         "edit_ops": 5759,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.085287,
@@ -545,7 +545,7 @@
         "edit_ops": 329,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.0
+        "elapsed_s": 0.01
       }
     }
   },
@@ -576,7 +576,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044551,
@@ -586,7 +586,7 @@
         "edit_ops": 27250,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.23
+        "elapsed_s": 0.27
       },
       "no_lvs": {
         "ker": 0.038775,
@@ -596,7 +596,7 @@
         "edit_ops": 5841,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.086455,
@@ -636,7 +636,7 @@
         "edit_ops": 328,
         "n_expected": 13695,
         "n_sentences": 422,
-        "elapsed_s": 0.0
+        "elapsed_s": 0.01
       }
     }
   },
@@ -667,7 +667,7 @@
           "n_expected": 297843,
           "n_sentences": 5000
         },
-        "elapsed_s": 0.19
+        "elapsed_s": 0.18
       },
       "lvs": {
         "ker": 0.044134,
@@ -677,7 +677,7 @@
         "edit_ops": 26995,
         "n_expected": 611660,
         "n_sentences": 21095,
-        "elapsed_s": 0.23
+        "elapsed_s": 0.28
       },
       "no_lvs": {
         "ker": 0.038477,
@@ -687,7 +687,7 @@
         "edit_ops": 5796,
         "n_expected": 150637,
         "n_sentences": 4600,
-        "elapsed_s": 0.05
+        "elapsed_s": 0.06
       },
       "ctxt": {
         "ker": 0.086382,

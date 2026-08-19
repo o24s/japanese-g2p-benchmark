@@ -7,9 +7,14 @@ Usage:
     uv run --with pyopenjtalk-plus[onnxruntime] python evaluate.py --adapters pyopenjtalk_plus
     uv run --with haqumei python evaluate.py --adapters haqumei
 
+データセットは長音の畳み方で切ってあり、出典とは別の軸である
+(`lvs` は 3 つの出典の混合)。出典で絞るときは `--sources` を使う。
+
 Options:
     --adapters    カンマ区切り前方一致フィルタ
     --datasets    カンマ区切り (phoneme, lvs, no_lvs, ctxt)
+    --sources     カンマ区切り (jsut-label, jvs_nonpara_kana,
+                  joyo-kanji-yomi-benchmark, rohan4600, ajimee-bench)
     --batch-size  バッチサイズ (default: 256)
     --out         結果 JSON の出力先
     --no-tsv      TSV を出力しない
@@ -20,7 +25,9 @@ import argparse
 import json
 import sys
 import time
+from collections import Counter
 from collections.abc import Sequence
+from dataclasses import dataclass
 from itertools import batched
 from pathlib import Path
 
@@ -31,65 +38,38 @@ RESULTS = Path("results")
 RESULTS.mkdir(exist_ok=True)
 
 
+def count_edit_ops(
+    reference: list[str] | str, hypothesis: list[str] | str
+) -> tuple[int, int, int]:
+    """置換・削除・挿入の数を返す。"""
+    tags = Counter(op.tag for op in Levenshtein.editops(reference, hypothesis))
+    return tags["replace"], tags["delete"], tags["insert"]
+
+
 def _get_diff_string(a: list[str] | str, b: list[str] | str) -> str:
+    """差分を `[-削除][+挿入]` の形で 1 行に並べる。
+
+    音素列 (list) は空白区切り、カナ (str) は区切りなしで連結する。
+    """
+    sep = "" if isinstance(a, str) else " "
+
+    def render(seq: list[str] | str, start: int, end: int) -> str:
+        return sep.join(seq[start:end])
+
     parts: list[str] = []
-    is_str = isinstance(a, str)
-
     for op in Levenshtein.opcodes(a, b):
-        tag = op.tag
-        src_start = op.src_start
-        src_end = op.src_end
-        dest_start = op.dest_start
-        dest_end = op.dest_end
+        src = render(a, op.src_start, op.src_end)
+        dest = render(b, op.dest_start, op.dest_end)
+        if op.tag == "equal":
+            parts.append(src)
+        elif op.tag == "replace":
+            parts.append(f"[-{src}][+{dest}]")
+        elif op.tag == "delete":
+            parts.append(f"[-{src}]")
+        elif op.tag == "insert":
+            parts.append(f"[+{dest}]")
 
-        if tag == "equal":
-            if isinstance(a, str):
-                parts.append(a[src_start:src_end])
-            else:
-                parts.extend(a[src_start:src_end])
-        elif tag == "replace":
-            old = (
-                "".join(a[src_start:src_end])
-                if is_str
-                else " ".join(a[src_start:src_end])
-            )
-            new = (
-                "".join(b[dest_start:dest_end])
-                if is_str
-                else " ".join(b[dest_start:dest_end])
-            )
-            parts.append(f"[-{old}][+{new}]")
-        elif tag == "delete":
-            old = (
-                "".join(a[src_start:src_end])
-                if is_str
-                else " ".join(a[src_start:src_end])
-            )
-            parts.append(f"[-{old}]")
-        elif tag == "insert":
-            new = (
-                "".join(b[dest_start:dest_end])
-                if is_str
-                else " ".join(b[dest_start:dest_end])
-            )
-            parts.append(f"[+{new}]")
-
-    return "".join(parts) if is_str else " ".join(parts)
-
-
-def _fmt_diff(ops: list[tuple[str, str, str]], sep: str = " ") -> str:
-    parts = []
-    for tag, av, bv in ops:
-        if tag == "equal":
-            parts.append(av)
-        elif tag == "substitute":
-            parts.append(f"[-{av}]")
-            parts.append(f"[+{bv}]")
-        elif tag == "delete":
-            parts.append(f"[-{av}]")
-        else:
-            parts.append(f"[+{bv}]")
-    return sep.join(p for p in parts if p)
+    return sep.join(parts)
 
 
 _UNVOICED_VOWELS = {"A", "E", "I", "O", "U"}
@@ -122,28 +102,20 @@ def _dump_phoneme_report(
     preds: Sequence[list[str] | str],
 ) -> None:
     lines: list[str] = []
-    total_s = total_d = total_i = total_n_filt = total_n_incl = 0
+    total_s = total_d = total_i = total_n = 0
     sentence_errors = 0
 
+    # このレポートは pau を除いた側だけを載せる
     for record, pred in zip(records, preds):
         raw = pred if isinstance(pred, list) else pred.strip().split()
-        ref_raw = record["phonemes"]
-
         pred_filt = _prepare_phones(raw, True)
-        ref_filt = _prepare_phones(ref_raw, True)
-        _pred_incl = _prepare_phones(raw, False)
-        ref_incl = _prepare_phones(ref_raw, False)
+        ref_filt = _prepare_phones(record["phonemes"], True)
 
-        ops_filt = Levenshtein.editops(ref_filt, pred_filt)
-        s = sum(1 for op in ops_filt if op.tag == "replace")
-        d = sum(1 for op in ops_filt if op.tag == "delete")
-        ins = sum(1 for op in ops_filt if op.tag == "insert")
-
+        s, d, ins = count_edit_ops(ref_filt, pred_filt)
         total_s += s
         total_d += d
         total_i += ins
-        total_n_filt += len(ref_filt)
-        total_n_incl += len(ref_incl)
+        total_n += len(ref_filt)
 
         if s == 0 and d == 0 and ins == 0:
             continue
@@ -162,37 +134,26 @@ def _dump_phoneme_report(
             "",
         ]
 
-    n_sentences = len(records)
-    overall_filt = (
-        (total_s + total_d + total_i) / total_n_filt * 100 if total_n_filt else 0.0
-    )
+    overall = (total_s + total_d + total_i) / total_n * 100 if total_n else 0.0
     header = [
         "Phoneme Error Rate report (pau_filtered)",
-        f"Total sentences     : {n_sentences}",
+        f"Total sentences     : {len(records)}",
         f"Sentences with errors: {sentence_errors}",
-        f"Overall PER (S+D+I / N): {overall_filt:.2f}%  "
-        f"(S={total_s} D={total_d} I={total_i} N={total_n_filt})",
+        f"Overall PER (S+D+I / N): {overall:.2f}%  "
+        f"(S={total_s} D={total_d} I={total_i} N={total_n})",
         "",
     ]
     path.write_text("\n".join(header + lines), encoding="utf-8")
 
 
-def _dump_kana_report(
-    path: Path,
-    records: list[dict],
-    preds: list[str],
-    dataset: str,
-) -> None:
+def _dump_kana_report(path: Path, records: list[dict], preds: list[str]) -> None:
     lines: list[str] = []
     total_s = total_d = total_i = total_n = 0
     sentence_errors = 0
 
     for record, pred in zip(records, preds):
         gold = record["kana"]
-        ops = Levenshtein.editops(gold, pred)
-        s = sum(1 for op in ops if op.tag == "replace")
-        d = sum(1 for op in ops if op.tag == "delete")
-        ins = sum(1 for op in ops if op.tag == "insert")
+        s, d, ins = count_edit_ops(gold, pred)
 
         total_s += s
         total_d += d
@@ -217,17 +178,49 @@ def _dump_kana_report(
             "",
         ]
 
-    n_sentences = len(records)
     overall = (total_s + total_d + total_i) / total_n * 100 if total_n else 0.0
     header = [
-        f"Katakana Error Rate report [{dataset}]",
-        f"Total sentences     : {n_sentences}",
+        "Katakana Error Rate report",
+        f"Total sentences     : {len(records)}",
         f"Sentences with errors: {sentence_errors}",
         f"Overall KER (S+D+I / N): {overall:.2f}%  "
         f"(S={total_s} D={total_d} I={total_i} N={total_n})",
         "",
     ]
     path.write_text("\n".join(header + lines), encoding="utf-8")
+
+
+@dataclass
+class Tally:
+    """編集操作の累計。`add` を呼ぶたびに 1 文ぶん足す。"""
+
+    substitutions: int = 0
+    deletions: int = 0
+    insertions: int = 0
+    n_expected: int = 0
+
+    def add(self, reference: list[str] | str, hypothesis: list[str] | str) -> None:
+        s, d, ins = count_edit_ops(reference, hypothesis)
+        self.substitutions += s
+        self.deletions += d
+        self.insertions += ins
+        self.n_expected += len(reference)
+
+    @property
+    def edit_ops(self) -> int:
+        return self.substitutions + self.deletions + self.insertions
+
+    def as_dict(self, key: str, n_sentences: int) -> dict:
+        """誤り率と内訳をまとめる。`key` は "per" か "ker"。"""
+        return {
+            key: round(self.edit_ops / self.n_expected, 6) if self.n_expected else 0.0,
+            "substitutions": self.substitutions,
+            "deletions": self.deletions,
+            "insertions": self.insertions,
+            "edit_ops": self.edit_ops,
+            "n_expected": self.n_expected,
+            "n_sentences": n_sentences,
+        }
 
 
 def _eval_phoneme(
@@ -238,50 +231,23 @@ def _eval_phoneme(
 ) -> dict:
     preds = _batch_call(adapter.g2p, [r["text"] for r in records], batch_size)
 
-    # pauありとpauなしのカウント用
-    s_incl = d_incl = i_incl = n_incl = 0
-    s_filt = d_filt = i_filt = n_filt = 0
+    # pau を含めた場合と除いた場合を同時に数える
+    included, filtered = Tally(), Tally()
 
     for pred, record in zip(preds, records):
         raw = pred if isinstance(pred, list) else pred.strip().split()
-        ref_raw = record["phonemes"]
-
-        # pauあり
-        pred_incl = _prepare_phones(raw, False)
-        ref_incl = _prepare_phones(ref_raw, False)
-        ops_i = Levenshtein.editops(ref_incl, pred_incl)
-        s_incl += sum(1 for op in ops_i if op.tag == "replace")
-        d_incl += sum(1 for op in ops_i if op.tag == "delete")
-        i_incl += sum(1 for op in ops_i if op.tag == "insert")
-        n_incl += len(ref_incl)
-
-        # pauなし
-        pred_filt = _prepare_phones(raw, True)
-        ref_filt = _prepare_phones(ref_raw, True)
-        ops_f = Levenshtein.editops(ref_filt, pred_filt)
-        s_filt += sum(1 for op in ops_f if op.tag == "replace")
-        d_filt += sum(1 for op in ops_f if op.tag == "delete")
-        i_filt += sum(1 for op in ops_f if op.tag == "insert")
-        n_filt += len(ref_filt)
-
-    def _per_block(s: int, d: int, ins: int, n_expected: int) -> dict:
-        total_ops = s + d + ins
-        return {
-            "per": round(total_ops / n_expected, 6) if n_expected else 0.0,
-            "substitutions": s,
-            "deletions": d,
-            "insertions": ins,
-            "edit_ops": total_ops,
-            "n_expected": n_expected,
-            "n_sentences": len(records),
-        }
+        for filter_pau, tally in ((False, included), (True, filtered)):
+            tally.add(
+                _prepare_phones(record["phonemes"], filter_pau),
+                _prepare_phones(raw, filter_pau),
+            )
 
     if report_path is not None:
         _dump_phoneme_report(report_path, records, preds)
 
     return {
-        "pau_included": _per_block(s_incl, d_incl, i_incl, n_incl),
-        "pau_filtered": _per_block(s_filt, d_filt, i_filt, n_filt),
+        "pau_included": included.as_dict("per", len(records)),
+        "pau_filtered": filtered.as_dict("per", len(records)),
     }
 
 
@@ -292,29 +258,15 @@ def _eval_kana(
     report_path: Path | None = None,
 ) -> dict:
     preds = _batch_call(adapter.g2k, [r["text"] for r in records], batch_size)
-    total_s = total_d = total_i = total_n = 0
+    tally = Tally()
 
     for pred, record in zip(preds, records):
-        ref = record["kana"]
-        ops = Levenshtein.editops(ref, pred)
-        total_s += sum(1 for op in ops if op.tag == "replace")
-        total_d += sum(1 for op in ops if op.tag == "delete")
-        total_i += sum(1 for op in ops if op.tag == "insert")
-        total_n += len(ref)
+        tally.add(record["kana"], pred)
 
     if report_path is not None:
-        _dump_kana_report(report_path, records, preds, dataset="kana")
+        _dump_kana_report(report_path, records, preds)
 
-    total_ops = total_s + total_d + total_i
-    return {
-        "ker": round(total_ops / total_n, 6) if total_n else 0.0,
-        "substitutions": total_s,
-        "deletions": total_d,
-        "insertions": total_i,
-        "edit_ops": total_ops,
-        "n_expected": total_n,
-        "n_sentences": len(records),
-    }
+    return tally.as_dict("ker", len(records))
 
 
 DATASET_DEF: dict[str, tuple[Path, str]] = {
@@ -331,7 +283,7 @@ _COLUMNS = [
     ("ctxt", "KER-ctxt"),
 ]
 
-#: 各データセットが何でできているか。
+# 列名だけでは出典が分からないので、表の下に凡例として出す。
 DATASET_SOURCES: dict[str, str] = {
     "phoneme": "jsut-label (JSUT Basic5000) 5,000",
     "lvs": "jsut-label 5,000 + jvs_nonpara_kana 3,000 + joyo-kanji-yomi-benchmark 13,095",
@@ -341,10 +293,10 @@ DATASET_SOURCES: dict[str, str] = {
 
 
 def check_datasets(names: list[str]) -> list[str]:
-    """`--datasets` の値を検査する。未知の名前は候補を添えて弾く。
+    """`--datasets` の値を検査して返す。
 
-    データセットは「長音をどう畳むか」で切ってあり、出典とは別の軸である
-    (`lvs` は 3 つの出典の混合)。出典で絞りたいときは `--sources` を使う。
+    データセットは長音の畳み方で分けてあり、出典とは別の軸である
+    (`lvs` は 3 つの出典の混合)。出典で絞るには `--sources` を使う。
     """
     out = []
     for raw in names:
@@ -357,6 +309,11 @@ def check_datasets(names: list[str]) -> list[str]:
             )
         out.append(name)
     return out
+
+
+def sources_of(records: list[dict]) -> list[str]:
+    """レコードに含まれる出典を並べる。"""
+    return sorted({str(r["source"]) for r in records if r.get("source")})
 
 
 def filter_by_source(records: list[dict], sources: list[str] | None) -> list[dict]:
@@ -461,16 +418,22 @@ def run_evaluation(
             )
             continue
         records = load_jsonl(path)
-        available = sorted({r.get("source") for r in records if r.get("source")})
         if filter_sources:
-            unknown = [x for x in filter_sources if x not in available]
-            if unknown and not any(x in available for x in filter_sources):
-                print(f"  [SKIP] {ds}: 指定の出典を含みません (この中にあるのは {', '.join(available)})")
+            kept = filter_by_source(records, filter_sources)
+            if not kept:
+                have = ", ".join(sources_of(records))
+                print(f"  [SKIP] {ds}: 指定の出典を含みません (あるのは {have})")
                 continue
-            records = filter_by_source(records, filter_sources)
+            records = kept
         dataset_cache[ds] = records
         note = f"  ({'+'.join(filter_sources)} のみ)" if filter_sources else ""
         print(f"  Loaded {ds}: {len(records)} records{note}")
+
+    # 出典名を打ち間違えると全部飛ばされて 0 件で終わるので、そこで止める
+    if filter_sources and not dataset_cache:
+        raise SystemExit(
+            f"--sources {','.join(filter_sources)} に一致するレコードがありません。"
+        )
 
     all_results: dict = {}
 

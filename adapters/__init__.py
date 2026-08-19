@@ -47,7 +47,9 @@ def _build_variants() -> list[Variant]:
                                 revert_long_vowels=revert,
                                 revert_yotsugana=revert,
                             ),
-                            datasets=_NO_LVS_TASKS if revert else _LVS_TASKS + _NO_LVS_TASKS,
+                            datasets=_NO_LVS_TASKS
+                            if revert
+                            else _LVS_TASKS + _NO_LVS_TASKS,
                         )
                     )
     except ImportError:
@@ -59,7 +61,8 @@ def _build_variants() -> list[Variant]:
 
         from .haqumei import HaqumeiAdapter
 
-        # yuu-base は「言う」の基本形だけを ユー にする (活用形は イ 段のまま)。
+        # yuu-base は「言う」の基本形だけを ユー にし、活用形は イ 段に残す。
+        # 朗読音声のコーパスがそう註釈している。
         _IU_VARIANTS: list[tuple[IuPronunciation, str]] = [
             (IuPronunciation.None_, "none"),
             (IuPronunciation.Yuu, "yuu"),

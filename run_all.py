@@ -8,8 +8,13 @@ pyopenjtalk と pyopenjtalk-plus はパッケージ名が衝突するため、
 Usage:
     uv run python run_all.py
     uv run python run_all.py --skip haqumei
-    uv run python run_all.py --datasets jsut,rohan
+    uv run python run_all.py --datasets phoneme,no_lvs
+    uv run python run_all.py --sources rohan4600
     uv run python run_all.py --dry-run
+
+リリース前の候補を測るときは、`uv run --with` に渡すものを差し替えられる。
+
+    G2P_BENCH_PKG_HAQUMEI=/path/to/haqumei-0.9.0-*.whl uv run python run_all.py
 """
 
 import argparse
@@ -37,11 +42,14 @@ _RUNS = [
 
 _COMMON_PKGS = ["datasets", "rapidfuzz"]
 
-# リリース前に手元のビルドを検証したいことがあるので、環境変数で
-# `uv run --with` に渡すものを差し替えられるようにしておく。
-#
-#     G2P_BENCH_PKG_HAQUMEI=/path/to/haqumei-0.9.0-*.whl uv run python run_all.py
+
 def _resolve_pkg(pkg: str, adapter_filter: str) -> str:
+    """`uv run --with` に渡すものを環境変数で差し替える。
+
+    未公開のビルドを測るために使う。既定は `_RUNS` の pip パッケージ名。
+
+        G2P_BENCH_PKG_HAQUMEI=/path/to/haqumei-0.9.0-*.whl uv run python run_all.py
+    """
     return os.environ.get(f"G2P_BENCH_PKG_{adapter_filter.upper()}", pkg)
 
 
@@ -111,6 +119,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--datasets", default=None, help="カンマ区切りで絞り込むデータセット"
+    )
+    parser.add_argument(
+        "--sources", default=None, help="カンマ区切りで絞り込む出典 (例: rohan4600)"
     )
     parser.add_argument(
         "--dry-run", action="store_true", help="コマンドを表示するだけで実行しない"
