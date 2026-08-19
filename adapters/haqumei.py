@@ -6,13 +6,11 @@ from .base import G2PAdapter
 class HaqumeiAdapter(G2PAdapter):
     def __init__(
         self,
-        use_unidic_yomi: bool = False,
         normalize_iu: IuPronunciation = IuPronunciation.None_,
         revert_long_vowels: bool = False,
         revert_yotsugana: bool = False,
     ) -> None:
         self._h = Haqumei(
-            use_unidic_yomi=use_unidic_yomi,
             normalize_iu=normalize_iu,
             revert_long_vowels=revert_long_vowels,
             revert_yotsugana=revert_yotsugana,

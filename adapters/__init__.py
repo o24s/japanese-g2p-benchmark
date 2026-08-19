@@ -59,35 +59,34 @@ def _build_variants() -> list[Variant]:
 
         from .haqumei import HaqumeiAdapter
 
+        # yuu-base は「言う」の基本形だけを ユー にする (活用形は イ 段のまま)。
         _IU_VARIANTS: list[tuple[IuPronunciation, str]] = [
             (IuPronunciation.None_, "none"),
             (IuPronunciation.Yuu, "yuu"),
+            (IuPronunciation.YuuBase, "yuu-base"),
         ]
 
-        for unidic in [False, True]:
-            for iu, iu_label in _IU_VARIANTS:
-                for revert in [True, False]:
-                    variants.append(
-                        make_variant(
-                            adapter="haqumei",
-                            options={
-                                "use_unidic_yomi": unidic,
-                                "normalize_iu": iu_label,
-                                "revert_long_vowels": revert,
-                                "revert_yotsugana": revert,
-                            },
-                            factory=partial(
-                                HaqumeiAdapter,
-                                use_unidic_yomi=unidic,
-                                normalize_iu=iu,
-                                revert_long_vowels=revert,
-                                revert_yotsugana=revert,
-                            ),
-                            datasets=_NO_LVS_TASKS
-                            if revert
-                            else _LVS_TASKS + _NO_LVS_TASKS,
-                        )
+        for iu, iu_label in _IU_VARIANTS:
+            for revert in [True, False]:
+                variants.append(
+                    make_variant(
+                        adapter="haqumei",
+                        options={
+                            "normalize_iu": iu_label,
+                            "revert_long_vowels": revert,
+                            "revert_yotsugana": revert,
+                        },
+                        factory=partial(
+                            HaqumeiAdapter,
+                            normalize_iu=iu,
+                            revert_long_vowels=revert,
+                            revert_yotsugana=revert,
+                        ),
+                        datasets=_NO_LVS_TASKS
+                        if revert
+                        else _LVS_TASKS + _NO_LVS_TASKS,
                     )
+                )
     except ImportError:
         pass
 
