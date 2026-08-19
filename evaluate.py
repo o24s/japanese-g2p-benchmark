@@ -16,12 +16,11 @@ Options:
     --no-table    コンソールテーブルを出力しない
 """
 
-from typing import Sequence
-
 import argparse
 import json
 import sys
 import time
+from collections.abc import Sequence
 from itertools import batched
 from pathlib import Path
 
@@ -332,6 +331,40 @@ _COLUMNS = [
     ("ctxt", "KER-ctxt"),
 ]
 
+#: 各データセットが何でできているか。
+DATASET_SOURCES: dict[str, str] = {
+    "phoneme": "jsut-label (JSUT Basic5000) 5,000",
+    "lvs": "jsut-label 5,000 + jvs_nonpara_kana 3,000 + joyo-kanji-yomi-benchmark 13,095",
+    "no_lvs": "rohan4600 4,600",
+    "ctxt": "ajimee-bench (JWTD_v2, IME タスクの逆) 422",
+}
+
+
+def check_datasets(names: list[str]) -> list[str]:
+    """`--datasets` の値を検査する。未知の名前は候補を添えて弾く。
+
+    データセットは「長音をどう畳むか」で切ってあり、出典とは別の軸である
+    (`lvs` は 3 つの出典の混合)。出典で絞りたいときは `--sources` を使う。
+    """
+    out = []
+    for raw in names:
+        name = raw.strip()
+        if name not in DATASET_DEF:
+            known = ", ".join(DATASET_DEF)
+            raise SystemExit(
+                f"不明なデータセットです: {raw}  (指定できるのは {known})\n"
+                f"出典で絞りたい場合は --sources を使ってください。"
+            )
+        out.append(name)
+    return out
+
+
+def filter_by_source(records: list[dict], sources: list[str] | None) -> list[dict]:
+    """`--sources` で出典を絞る。指定が無ければそのまま返す。"""
+    if not sources:
+        return records
+    return [r for r in records if r.get("source") in sources]
+
 
 def _fmt_cell(results_dict: dict, ds: str) -> str:
     r = results_dict.get(ds)
@@ -371,6 +404,10 @@ def print_table(all_results: dict) -> None:
         cells = "  ".join(f"{_fmt_cell(data['results'], ds):>9}" for ds, _ in _COLUMNS)
         print(f"{adapter_str:<{adapter_w}}  {options_str:<{options_w}}  {cells}")
 
+    print()
+    for ds, label in _COLUMNS:
+        print(f"  {label:<10} {DATASET_SOURCES[ds]}")
+
 
 def write_tsv(all_results: dict, path: Path) -> None:
     headers = ["adapter", "options"] + [label for _, label in _COLUMNS]
@@ -394,6 +431,7 @@ def run_evaluation(
     filter_datasets: list[str] | None,
     batch_size: int,
     dump_dir: Path | None = None,
+    filter_sources: list[str] | None = None,
 ) -> dict:
     from adapters import VARIANTS
 
@@ -422,8 +460,17 @@ def run_evaluation(
                 f"[WARN] {path} が見つかりません。先に uv run init.py を実行してください。"
             )
             continue
-        dataset_cache[ds] = load_jsonl(path)
-        print(f"  Loaded {ds}: {len(dataset_cache[ds])} records")
+        records = load_jsonl(path)
+        available = sorted({r.get("source") for r in records if r.get("source")})
+        if filter_sources:
+            unknown = [x for x in filter_sources if x not in available]
+            if unknown and not any(x in available for x in filter_sources):
+                print(f"  [SKIP] {ds}: 指定の出典を含みません (この中にあるのは {', '.join(available)})")
+                continue
+            records = filter_by_source(records, filter_sources)
+        dataset_cache[ds] = records
+        note = f"  ({'+'.join(filter_sources)} のみ)" if filter_sources else ""
+        print(f"  Loaded {ds}: {len(records)} records{note}")
 
     all_results: dict = {}
 
@@ -498,7 +545,14 @@ def main() -> None:
     parser.add_argument(
         "--datasets",
         default=None,
-        help="カンマ区切り (phoneme, lvs, no_lvs, ctxt)",
+        help="カンマ区切り。出典名でも指定できる "
+        "(phoneme=jsut, lvs, no_lvs=rohan, ctxt=ajimee)",
+    )
+    parser.add_argument(
+        "--sources",
+        default=None,
+        help="カンマ区切りで出典を絞る "
+        "(jsut-label, jvs_nonpara_kana, joyo-kanji-yomi-benchmark, rohan4600, ajimee-bench)",
     )
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument(
@@ -522,7 +576,10 @@ def main() -> None:
         [s.strip() for s in args.adapters.split(",")] if args.adapters else None
     )
     filter_datasets = (
-        [s.strip() for s in args.datasets.split(",")] if args.datasets else None
+        check_datasets(args.datasets.split(",")) if args.datasets else None
+    )
+    filter_sources = (
+        [x.strip() for x in args.sources.split(",")] if args.sources else None
     )
 
     dump_dir = args.dump_errors
@@ -531,7 +588,7 @@ def main() -> None:
 
     print("japanese-g2p-benchmark:")
     all_results = run_evaluation(
-        filter_adapters, filter_datasets, args.batch_size, dump_dir
+        filter_adapters, filter_datasets, args.batch_size, dump_dir, filter_sources
     )
 
     if not all_results:
